@@ -1,0 +1,217 @@
+<?xml version='1.0'?>
+<robot name="espeleo" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+  <xacro:property name="chassisGround" value="0.13"/>
+  <xacro:property name="chassisHeight" value="0.12"/>  
+  <xacro:property name="chassisLength" value="0.54"/>  
+  <xacro:property name="chassisWidth" value="0.25"/>
+  <xacro:property name="chassisMass" value="6"/>  
+  
+  <xacro:property name="wheelWidth" value="0.05"/>
+  <xacro:property name="wheelRadius" value="0.14"/>  
+  <xacro:property name="wheelPos" value="0.214"/>
+  <xacro:property name="wheelMass" value="5"/>
+    
+  <xacro:include filename="$(find espeleo_description)/urdf/espeleo.gazebo" />
+  <xacro:include filename="$(find espeleo_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find espeleo_description)/urdf/macros_espeleo.xacro" />
+  
+  <link name="footprint" />
+
+  <joint name="base_joint" type="fixed">
+    <parent link="footprint"/>
+    <child link="chassis"/>
+  </joint>
+  
+  <link name='chassis'>
+    
+    <collision> 
+      <origin xyz="0 0 ${chassisGround}" rpy="0 0 0"/> 
+      <geometry> 
+        <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/> 
+      </geometry> 
+    </collision>
+    
+    <visual> 
+      <origin xyz="0 0 ${chassisGround}" rpy="0 0 0"/> 
+      <geometry> 
+        <mesh filename="package://espeleo_description/urdf/stl/espeleorobo.stl" />
+      </geometry> 
+      <material name="orange"/>
+    </visual>
+    
+    <inertial> 
+      <origin xyz="0 0 ${chassisGround}" rpy="0 0 0"/> 
+      <mass value="${chassisMass}"/> 
+      <box_inertia m="${chassisMass}" x="${chassisLength}" y="${chassisWidth}" z="${chassisHeight}"/>
+    </inertial>
+  </link>
+  
+  <wheel lr="left_front" x_pos="${wheelPos}" y_pos="${wheelWidth/2+chassisWidth/2}" rot="0"/>
+  <wheel lr="left_middle" x_pos="0.0" y_pos="${wheelWidth/2+chassisWidth/2+0.05}" rot="0"/>
+  <wheel lr="left_back" x_pos="${-wheelPos}" y_pos="${wheelWidth/2+chassisWidth/2}" rot="0"/>
+  <wheel lr="right_front" x_pos="${wheelPos}" y_pos="${-wheelWidth/2-chassisWidth/2}" rot="${PI}"/>
+  <wheel lr="right_middle" x_pos="0.0" y_pos="${-wheelWidth/2-chassisWidth/2-0.05}" rot="${PI}"/>
+  <wheel lr="right_back" x_pos="${-wheelPos}" y_pos="${-wheelWidth/2-chassisWidth/2}" rot="${PI}"/>
+      
+
+<xacro:property name="cameraSize" value="0.02"/>
+
+  <xacro:property name="cameraMass" value="0.1"/>
+
+  
+
+  <!-- Camera -->
+
+  <link name="camera">
+
+    <collision>
+
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+
+      <geometry>
+
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+
+      </geometry>
+
+    </collision>
+
+
+
+    <visual>
+
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+
+      <geometry>
+
+        <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+
+      </geometry>
+
+      <material name="white"/>
+
+    </visual>
+
+
+
+    <inertial>
+
+      <mass value="${cameraMass}" />
+
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+
+      <box_inertia m="${cameraMass}" x="${cameraSize}" y="${cameraSize}" z="${cameraSize}" />
+
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+
+    </inertial>
+
+  </link>
+
+
+
+  <joint name="camera_joint" type="fixed">
+
+    <axis xyz="0 1 0" />
+
+    <origin xyz=".27 0 0.16" rpy="0 0 0"/>
+
+    <parent link="chassis"/>
+
+    <child link="camera"/>
+
+  </joint>
+
+
+
+  <!-- Hokuyo Laser -->
+
+  <joint name="hokuyo_joint" type="fixed">
+
+    <axis xyz="0 1 0" />
+
+    <origin xyz=".15 0 .3 " rpy="0 0 0"/>
+
+    <parent link="chassis"/>
+
+    <child link="hokuyo"/>
+
+  </joint>
+
+
+
+  <link name="hokuyo">
+
+    <collision>
+
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+
+      <geometry>
+
+          <box size="0.1 0.1 0.1"/>
+
+      </geometry>
+
+    </collision>
+
+
+
+    <visual>
+
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+
+      <geometry>
+
+          <mesh filename="package://espeleo_description/meshes/hokuyo.dae"/>
+
+      </geometry>
+
+    </visual>
+
+
+
+    <inertial>
+
+      <mass value="1e-5" />
+
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+
+    </inertial>
+
+  </link>
+
+
+  <!-- Hokuyo Laser Support -->
+
+   <joint name="hokuyo_support_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz=".15 0 .21 " rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="hokuyo_support"/>
+  </joint>
+
+  <link name="hokuyo_support">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.05 0.05 0.11"/>
+      </geometry>
+    </collision>
+
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.05 0.05 0.11"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+
+  </link>
+
+</robot>
