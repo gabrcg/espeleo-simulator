@@ -7,21 +7,21 @@
   <xacro:property name="chassisHeight" value="0.12"/>  
   <xacro:property name="chassisLength" value="0.54"/>  
   <xacro:property name="chassisWidth" value="0.25"/>
-  <xacro:property name="chassisMass" value="6"/>  
+  <xacro:property name="chassisMass" value="0.5"/>  
   
   <xacro:property name="wheelWidth" value="0.05"/>
   <xacro:property name="wheelRadius" value="0.14"/>  
   <xacro:property name="wheelPos" value="0.214"/>
-  <xacro:property name="wheelMass" value="5"/>
+  <xacro:property name="wheelMass" value="0.2"/>
     
   <xacro:include filename="$(find espeleo_description)/urdf/espeleo.gazebo" />
   <xacro:include filename="$(find espeleo_description)/urdf/materials.xacro" />
   <xacro:include filename="$(find espeleo_description)/urdf/macros_espeleo.xacro" />
   
-  <link name="footprint" />
+  <link name="robot_footprint" />
 
   <joint name="base_joint" type="fixed">
-    <parent link="footprint"/>
+    <parent link="robot_footprint"/>
     <child link="chassis"/>
   </joint>
   

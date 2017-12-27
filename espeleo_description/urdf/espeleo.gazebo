@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <robot>
 
-  <gazebo reference="chassis">    
+  <gazebo reference="robot_footprint">    
     <material>Gazebo/White</material>
   </gazebo>
   
@@ -24,7 +24,7 @@
       <commandTopic>espeleo/cmd_vel</commandTopic>
       <odometryTopic>espeleo/odom_diffdrive</odometryTopic>
       <odometryFrame>odom</odometryFrame>
-      <robotBaseFrame>footprint</robotBaseFrame>
+      <robotBaseFrame>robot_footprint</robotBaseFrame>
     </plugin>
   </gazebo-->
   
@@ -52,13 +52,14 @@
       <updateRate>100.0</updateRate>
       <leftJoints>left_front_wheel_joint left_middle_wheel_joint left_back_wheel_joint</leftJoints>
       <rightJoints>right_front_wheel_joint right_middle_wheel_joint right_back_wheel_joint</rightJoints>
-      <wheelSeparation>${chassisWidth+wheelWidth}</wheelSeparation>
+      <!-- <wheelSeparation>${chassisWidth+wheelWidth}</wheelSeparation> THis is the right one, but the robot takes too much time to turn -->
+      <wheelSeparation>1</wheelSeparation>
       <wheelDiameter>${wheelRadius*2}</wheelDiameter>
-      <torque>50000</torque>
+      <torque>1000000</torque>
       <position name="position_iface_2"/>      
-      <robotBaseFrame>chassis</robotBaseFrame>
+      <robotBaseFrame>robot_footprint</robotBaseFrame>
       <commandTopic>/cmd_vel</commandTopic>
-      <publishOdometryTf>0</publishOdometryTf>
+      <publishOdometryTf>1</publishOdometryTf>
       <publishOdometryMsg>1</publishOdometryMsg>
     </plugin>
   </gazebo>
