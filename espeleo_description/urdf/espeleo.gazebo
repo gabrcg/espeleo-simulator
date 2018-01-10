@@ -103,7 +103,7 @@
 
         <updateRate>0.0</updateRate>
 
-        <cameraName>udacity_bot/camera1</cameraName>
+        <cameraName>espeleo/camera1</cameraName>
 
         <imageTopicName>image_raw</imageTopicName>
 
@@ -193,7 +193,7 @@
 
       <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
 
-        <topicName>/udacity_bot/laser/scan</topicName>
+        <topicName>/espeleo/laser/scan</topicName>
 
         <frameName>hokuyo</frameName>
 
