@@ -13,5 +13,5 @@ Make sure following ROS packages are installed:
 * hector-gazebo-plugins
 
 ```
-sudo apt-get install ros-kinect-effort-controllers ros-kinect-joint-state-controller ros-kinect-hector-gazebo-plugins
+sudo apt-get install ros-kinetic-effort-controllers ros-kinetic-joint-state-controller ros-kinetic-hector-gazebo-plugins
 ```
